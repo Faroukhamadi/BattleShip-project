@@ -1,3 +1,12 @@
+/**
+ *
+ * @param {String} shipName Contains the ship name
+ * @param {Integer} shipLength Contains the length of the ship
+ * @param {Array} shipDamageSpots Contains where the ship has been damaged
+ * @param {Boolean} shipHasSunk Contains a boolean indicating whether the ship has sunk
+ * @returns a Ship Object
+ */
+
 function Ship(shipName, shipLength, shipDamageSpots, shipHasSunk) {
   return {
     shipName,
