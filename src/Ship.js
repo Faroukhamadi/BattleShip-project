@@ -7,9 +7,13 @@
  * @returns a Ship Object
  */
 
-function Ship(shipName, shipLength, shipDamageSpots, shipHasSunk) {
+function Ship(shipName, shipLength, shipDamageSpots, shipHasSunk = false) {
+  const _lowerCaseShipName = (shipName) => {
+    return shipName.toLowerCase();
+  };
+
   return {
-    shipName,
+    shipName: _lowerCaseShipName(shipName),
     shipLength,
     shipDamageSpots,
     shipHasSunk,
@@ -25,8 +29,5 @@ function Ship(shipName, shipLength, shipDamageSpots, shipHasSunk) {
     },
   };
 }
-
-let ship1 = Ship('carrier', 5, [], false);
-console.log(ship1);
 
 module.exports = Ship;
