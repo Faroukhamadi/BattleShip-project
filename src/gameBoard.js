@@ -10,9 +10,12 @@ const Ship = require('./Ship');
  * 6: Missed Shot
  */
 
-class gameBoard {
+class GameBoard {
+  /**
+   *
+   * @returns A boolean indicating whether all of the ships have been sunk
+   */
   constructor() {
-    this.boardMatrix = this.#_initializeBoard();
     this.carrier = Ship('carrier', 5, []);
     this.battleship = Ship('battleship', 4, []);
     this.cruiser = Ship('cruiser', 3, []);
@@ -25,12 +28,23 @@ class gameBoard {
       this.submarine,
       this.destroyer,
     ];
+    this.boardMatrix = this.#initializeBoard();
+    this.allSunk = this.#haveAllBeenSunk();
+  }
+
+  #haveAllBeenSunk() {
+    for (const ship of this.ships) {
+      if (ship.shipHasSunk === false) {
+        return false;
+      }
+    }
+    return true;
   }
 
   /**
    * @returns a matrix initialized with zeros
    */
-  #_initializeBoard() {
+  #initializeBoard() {
     let board = [];
     for (let i = 0; i < 10; i++) {
       board.push([0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
@@ -55,19 +69,6 @@ class gameBoard {
     } else if (boardValue === 5) {
       return 'destroyer';
     }
-  }
-
-  /**
-   *
-   * @returns A boolean indicating whether all of the ships have been sunk
-   */
-  #_haveAllBeenSunk() {
-    for (const ship of this.ships) {
-      if (ship.isSunk() === false) {
-        return false;
-      }
-    }
-    return true;
   }
 
   /**
@@ -119,3 +120,8 @@ class gameBoard {
     }
   }
 }
+
+const gameBoard = new GameBoard();
+console.log('What the fuck?', gameBoard.allSunk);
+
+module.exports = GameBoard;

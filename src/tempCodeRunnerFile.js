@@ -1,4 +1,10 @@
-gameboard.receiveAttack(3, 4);
-gameboard.receiveAttack(3, 5);
-gameboard.receiveAttack(3, 6);
-gameboard.receiveAttack(3, 7);
+  // haveAllBeenSunk() {
+  //   this.ships.forEach(function (ship) {
+  //     console.log(ship.shipHasSunk);
+  //     if (ship.shipHasSunk === false) {
+  //       console.log('executed');
+  //       return false;
+  //     }
+  //   });
+  //   return true;
+  // }
