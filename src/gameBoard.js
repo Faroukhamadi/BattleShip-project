@@ -121,7 +121,4 @@ class GameBoard {
   }
 }
 
-const gameBoard = new GameBoard();
-console.log('What the fuck?', gameBoard.allSunk);
-
 module.exports = GameBoard;
