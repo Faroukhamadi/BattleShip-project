@@ -7,7 +7,7 @@
  * @returns a Ship Object
  */
 
-function Ship(shipName, shipLength, shipDamageSpots, shipHasSunk = false) {
+function Ship(shipName, shipLength, shipDamageSpots = [], shipHasSunk = false) {
   const _lowerCaseShipName = (shipName) => {
     return shipName.toLowerCase();
   };
