@@ -1,6 +1,6 @@
 const GameBoard = require('./GameBoard');
 
-// Declares new instance for testing
+// Declare new instance for testing
 const gameBoard = new GameBoard();
 
 test('board matrix gets initialized to a (10)row matrix', () => {
