@@ -7,7 +7,10 @@ const Ship = require('./Ship');
  * 3: Cruiser
  * 4: Submarine
  * 5: Destroyer
+ *
+ * Numbers Used to indicate different states of board:
  * 6: Missed Shot
+ * 7: Destroyed
  */
 
 class GameBoard {
@@ -102,7 +105,7 @@ class GameBoard {
   /**
    * @param {Integer} i Contains starting row of the attack
    * @param {Integer} j Contains starting column of the attack
-   * @returns an array of [row, column] if missed, undefined if hit
+   * Assigns to board 6 if missed and 7 if hit
    */
   receiveAttack(i, j) {
     // If value is '0' then shot is missed
@@ -116,6 +119,8 @@ class GameBoard {
           (element) => element.shipName === shipName
         );
         this.ships[indexOfShip].hit({ row: i, column: j });
+        // After hitting the ship mark the spot as hit by assigning 7
+        this.boardMatrix[i][j] = 7;
       }
     }
   }
