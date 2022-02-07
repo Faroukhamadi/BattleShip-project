@@ -14,6 +14,7 @@ function fade(element) {
 function unfade(element) {
   let op = 0.0001; // initial opacity
   let timer = setInterval(function () {
+    element.style.visibility = 'visible';
     if (op >= 1) {
       clearInterval(timer);
     }

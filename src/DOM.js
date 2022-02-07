@@ -4,6 +4,5 @@ import thirdView from './dom-module/thirdView';
 
 export default function domManipulation() {
   firstView();
-  secondView();
-  thirdView();
+  // thirdView();
 }
