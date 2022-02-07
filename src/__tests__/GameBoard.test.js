@@ -1,4 +1,4 @@
-const GameBoard = require('./GameBoard');
+const GameBoard = require('../GameBoard');
 
 // Declare new instance for testing
 const gameBoard = new GameBoard();

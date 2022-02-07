@@ -1,4 +1,4 @@
-const Player = require('./Player');
+const Player = require('../Player');
 
 // Declare new instance for testing
 const computerPlayer = new Player('computer');

@@ -1,4 +1,4 @@
-const Ship = require('./Ship');
+const Ship = require('../Ship');
 
 test('should initialize isSunk to false', () => {
   expect(Ship('carrier', 5, []).isSunk()).toBe(false);
