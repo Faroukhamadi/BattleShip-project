@@ -1,15 +1,16 @@
-export default function firstView() {}
+import removeChildren from './removeChildren';
+import { fade, unfade } from './fadeEffects';
 
-// <!-- First View -->
+export default function firstView() {
+  const inputContainer = document.querySelector('.input-container');
+  const startGame = document.getElementById('start-game');
+  const main = document.querySelector('main');
 
-//         <!-- <div class="input-container">
-//           <label for="input-field" id="input-text">ENTER PLAYER NAME: </label>
-//           <input
-//             type="text"
-//             name="input-field"
-//             id="input-field"
-//             placeholder="BATTLESHIP CAPTAIN"
-//             tabindex="3"
-//           />
-//           <button id="start-game">START GAME</button>
-//         </div> -->
+  unfade(inputContainer);
+  startGame.addEventListener('click', () => {
+    fade(inputContainer);
+    setTimeout(() => {
+      removeChildren(main);
+    }, 3000);
+  });
+}

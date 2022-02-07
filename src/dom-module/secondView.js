@@ -1,3 +1,5 @@
+import removeChildren from './removeChildren';
+import { fade, unfade } from './fadeEffects';
 export default function secondView() {}
 
 // <!-- Second View -->

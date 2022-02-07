@@ -47,6 +47,7 @@ header {
   display: flex;
   justify-content: center;
   align-items: center;
+  overflow: hidden;
 }
 
 header > img {
@@ -209,3 +210,95 @@ footer > p {
 #axis-btn {
   margin: 1rem;
 }
+
+/* Animations for First View */
+
+/* Wavy Logo */
+header > img {
+  transform: rotate(0deg);
+  transform: translateY(60px);
+  animation: wavy 3s ease-in-out infinite alternate 3s, bounce-top 3s ease;
+
+  box-shadow: 0px 5px 50px 1px rgba(16, 8, 43, 0.6);
+}
+
+@keyframes bounce-top {
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+@keyframes wavy {
+  0% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(-1deg);
+  }
+  100% {
+    transform: rotate(1deg);
+  }
+}
+
+/* Making elements appear slowly */
+
+/* .input-container {
+  opacity: 0;
+  animation: makeVisible 3s forwards;
+} */
+
+/* @keyframes makeVisible {
+  to {
+    opacity: 1;
+  }
+} */
+
+/* Making elements disappear slowly */
+/* TODO:HERE NOW */
+/* .input-container {
+  animation: makeInvisible 5s forwards;
+} */
+
+/* @keyframes makeInvisible {
+  to {
+    opacity: 0;
+  }
+} */
+
+/* ***********First View Ends Here************* */
+
+/* Animations for Second View */
+
+/* Making Elements appear slowly */
+/* .placing-container {
+  opacity: 0;
+  animation: makeVisible 5s forwards;
+} */
+
+/* Making elements disappear slowly */
+
+/* .placing-container {
+  animation: makeInvisible 5s forwards;
+}
+
+
+/* ***********Second View Ends Here************* */
+
+/* Animations for third view */
+
+/* Making elements appear slowly */
+/* .grid1-container,
+.grid2-container {
+  opacity: 0;
+  animation: makeVisible 5s forwards;
+}
+
+
+/* Making elements disappear slowly */
+
+/* .grid1-container,
+.grid2-container {
+  animation: makeInvisible 5s forwards;
+} */
+
+/* ***********Third View Ends Here************* */
