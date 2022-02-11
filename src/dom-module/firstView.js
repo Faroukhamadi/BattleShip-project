@@ -1,6 +1,6 @@
 import removeChildren from './removeChildren';
 import { fade, unfade } from './fadeEffects';
-import secondView from './secondView';
+import { secondView, secondViewRender } from './secondView';
 
 export default function firstView() {
   const inputContainer = document.querySelector('.input-container');
@@ -14,7 +14,7 @@ export default function firstView() {
       removeChildren(main);
     }, 3000);
     setTimeout(() => {
-      secondView();
+      secondViewRender();
     }, 3000);
   });
 }

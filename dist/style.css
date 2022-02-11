@@ -207,8 +207,13 @@ footer > p {
   cursor: pointer;
 }
 
+/* .column-placing:hover {
+  background-color: rgba(222, 228, 228, 0.7);
+} */
+
 #axis-btn {
   margin: 1rem;
+  outline: none;
 }
 
 /* Animations for First View */
