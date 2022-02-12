@@ -73,8 +73,13 @@ function _shipRendering(shipSizes, shipIndex) {
           if (axisButton.textContent === 'AXIS: X') {
             // Change styling to indicate that we're out of bounds
             if (j > 10 - shipSizes[shipIndex]) {
-              board[i][j].style.cursor = 'not-allowed';
-              board[i][j].style.background = 'red';
+              // Don't overwrite and existing ship
+              if (board[i][j].style.background === 'white')
+                board[i][j].style.cursor = 'not-allowed';
+              else {
+                board[i][j].style.background = 'red';
+                board[i][j].style.cursor = 'not-allowed';
+              }
               break;
             }
             // Give preview if we're not out of bounds
@@ -82,8 +87,13 @@ function _shipRendering(shipSizes, shipIndex) {
           } else if (axisButton.textContent === 'AXIS: Y') {
             // Change styling to indicate that we're out of bounds
             if (i > 10 - shipSizes[shipIndex]) {
-              board[i][j].style.cursor = 'not-allowed';
-              board[i][j].style.background = 'red';
+              // Don't overwrite and existing ship
+              if (board[i][j].style.background === 'white')
+                board[i][j].style.cursor = 'not-allowed';
+              else {
+                board[i][j].style.cursor = 'not-allowed';
+                board[i][j].style.background = 'red';
+              }
               break;
             }
             // Give preview if we're not out of bounds
@@ -116,9 +126,6 @@ function _shipRendering(shipSizes, shipIndex) {
       });
 
       board[i][j].addEventListener('click', () => {
-        // Beginning
-        // console.log(`ShipIndex: ${shipIndex}`);
-        shipIndex++;
         let k = axisButton.textContent === 'AXIS: X' ? j : i;
         for (
           let index = k;
@@ -126,37 +133,25 @@ function _shipRendering(shipSizes, shipIndex) {
           index++
         ) {
           if (axisButton.textContent === 'AXIS: X') {
-            // Change styling to indicate that we're out of bounds
-            if (j > 10 - shipSizes[shipIndex]) {
-              // board[i][j].style.cursor = 'not-allowed';
-              // board[i][j].style.background = 'red';
-              break;
-            }
-            // Place the ship if we're not out of bounds
+            // Change bg-color permanently
             board[i][index].style.background = 'white';
             // Mark the clicked column so that we don't remove
             board[i][index].dataset.filled = 'true';
           } else if (axisButton.textContent === 'AXIS: Y') {
-            // Change styling to indicate that we're out of bounds
-            if (i > 10 - shipSizes[shipIndex]) {
-              // board[i][j].style.cursor = 'not-allowed';
-              // board[i][j].style.background = 'red';
-              break;
-            }
-            // Place the ship if we're not out of bounds
+            // Change bg-color permanently
             board[index][j].style.background = 'white';
             // Mark the clicked column so that we don't remove
             board[index][j].dataset.filled = 'true';
           }
         }
-
-        // End
-
-        // Condition to render next page is if we're done
-        // with placing ships and we've reached the end of
-        // shipSizes array
+        /* Condition to render next page is if we're done
+        with placing ships and we've reached the end of
+        shipSizes array */
+        shipIndex++;
         if (shipIndex > 4) {
           alert("We're done");
+          // TODO: Store the coordinates and render next page when we're done placing
+          // Ships and
         }
       });
     }
