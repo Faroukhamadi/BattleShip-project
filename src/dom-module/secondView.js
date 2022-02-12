@@ -1,12 +1,13 @@
 import removeChildren from './removeChildren';
 import { fade, unfade } from './fadeEffects';
 import zeros from './zeros';
+import thirdView from './thirdView';
 
 /**
  * This is a helper function that helps us render the grid
  * place our ships after entering the name
  */
-function secondViewRender() {
+export default function () {
   const main = document.querySelector('main');
   const placingContainer = document.createElement('div');
   placingContainer.className = 'placing-container';
@@ -37,7 +38,7 @@ function secondViewRender() {
   // unfade effect
   unfade(main);
 
-  _toggleAxis(axisButton);
+  _toggleAxis(axisButton, shipSizes, shipIndex);
   _shipRendering(shipSizes, shipIndex);
 }
 
@@ -98,15 +99,66 @@ function _shipRendering(shipSizes, shipIndex) {
           index < k + shipSizes[shipIndex] && index < 10;
           index++
         ) {
-          if (axisButton.textContent === 'AXIS: X') {
+          if (
+            axisButton.textContent === 'AXIS: X' &&
+            board[i][index].dataset.filled !== 'true'
+          ) {
+            console.log('Mouse leave triggered');
             board[i][index].style.background = 'none';
-          } else if (axisButton.textContent === 'AXIS: Y') {
+          } else if (
+            axisButton.textContent === 'AXIS: Y' &&
+            board[index][j].dataset.filled !== 'true'
+          ) {
+            console.log('Mouse leave triggered');
             board[index][j].style.background = 'none';
           }
         }
       });
 
-      board[i][j].addEventListener('click', () => shipIndex++);
+      board[i][j].addEventListener('click', () => {
+        // Beginning
+        // console.log(`ShipIndex: ${shipIndex}`);
+        shipIndex++;
+        let k = axisButton.textContent === 'AXIS: X' ? j : i;
+        for (
+          let index = k;
+          index < k + shipSizes[shipIndex] && index < 10;
+          index++
+        ) {
+          if (axisButton.textContent === 'AXIS: X') {
+            // Change styling to indicate that we're out of bounds
+            if (j > 10 - shipSizes[shipIndex]) {
+              // board[i][j].style.cursor = 'not-allowed';
+              // board[i][j].style.background = 'red';
+              break;
+            }
+            // Place the ship if we're not out of bounds
+            board[i][index].style.background = 'white';
+            // Mark the clicked column so that we don't remove
+            board[i][index].dataset.filled = 'true';
+          } else if (axisButton.textContent === 'AXIS: Y') {
+            // Change styling to indicate that we're out of bounds
+            if (i > 10 - shipSizes[shipIndex]) {
+              // board[i][j].style.cursor = 'not-allowed';
+              // board[i][j].style.background = 'red';
+              break;
+            }
+            // Place the ship if we're not out of bounds
+            board[index][j].style.background = 'white';
+            // Mark the clicked column so that we don't remove
+            board[index][j].dataset.filled = 'true';
+          }
+        }
+
+        // End
+
+        // Condition to render next page is if we're done
+        // with placing ships and we've reached the end of
+        // shipSizes array
+        if (shipIndex > 4) {
+          alert("We're done");
+        }
+      });
     }
   }
 }
@@ -114,19 +166,14 @@ function _shipRendering(shipSizes, shipIndex) {
 /**
  * Toggles the axis of ship placing
  */
-function _toggleAxis(axisButton) {
+function _toggleAxis(axisButton, shipSizes, shipIndex) {
   axisButton.addEventListener('click', () => {
+    console.log('Toggling axis here');
     if (axisButton.textContent === 'AXIS: X') {
       axisButton.textContent = 'AXIS: Y';
     } else if (axisButton.textContent === 'AXIS: Y') {
       axisButton.textContent = 'AXIS: X';
     }
-    _shipRendering();
   });
+  _shipRendering(shipSizes, shipIndex);
 }
-
-function secondView() {
-  // Check if we're in the second page
-}
-
-export { secondViewRender, secondView };

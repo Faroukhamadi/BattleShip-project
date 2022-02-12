@@ -1,6 +1,6 @@
 import removeChildren from './removeChildren';
 import { fade, unfade } from './fadeEffects';
-import { secondView, secondViewRender } from './secondView';
+import secondViewRender from './secondView';
 
 export default function firstView() {
   const inputContainer = document.querySelector('.input-container');
