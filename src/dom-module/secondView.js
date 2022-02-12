@@ -21,6 +21,8 @@ function secondViewRender() {
   placingContainer.appendChild(axisButton);
   placingContainer.appendChild(grid);
 
+  let shipSizes = [5, 4, 3, 3, 2];
+  let shipIndex = 0;
   // Places 100 divs making a BattleShip board
   for (let i = 0; i < 100; i++) {
     let columnPlacing = document.createElement('div');
@@ -36,7 +38,7 @@ function secondViewRender() {
   unfade(main);
 
   _toggleAxis(axisButton);
-  _shipRendering();
+  _shipRendering(shipSizes, shipIndex);
 }
 
 /**
@@ -44,7 +46,7 @@ function secondViewRender() {
  * you to go over the limit of the matrix while placing ships
  */
 
-function _shipRendering() {
+function _shipRendering(shipSizes, shipIndex) {
   let axisButton = document.getElementById('axis-btn');
   // Filling the matrix with the board divs
   const columnPlacing = document.querySelectorAll('.column-placing');
@@ -62,10 +64,14 @@ function _shipRendering() {
     for (let j = 0; j < 10; j++) {
       board[i][j].addEventListener('mouseenter', () => {
         let k = axisButton.textContent === 'AXIS: X' ? j : i;
-        for (let index = k; index < k + 5 && index < 10; index++) {
+        for (
+          let index = k;
+          index < k + shipSizes[shipIndex] && index < 10;
+          index++
+        ) {
           if (axisButton.textContent === 'AXIS: X') {
             // Change styling to indicate that we're out of bounds
-            if (j > 5) {
+            if (j > 10 - shipSizes[shipIndex]) {
               board[i][j].style.cursor = 'not-allowed';
               board[i][j].style.background = 'red';
               break;
@@ -74,7 +80,7 @@ function _shipRendering() {
             board[i][index].style.background = 'white';
           } else if (axisButton.textContent === 'AXIS: Y') {
             // Change styling to indicate that we're out of bounds
-            if (i > 5) {
+            if (i > 10 - shipSizes[shipIndex]) {
               board[i][j].style.cursor = 'not-allowed';
               board[i][j].style.background = 'red';
               break;
@@ -87,7 +93,11 @@ function _shipRendering() {
 
       board[i][j].addEventListener('mouseleave', () => {
         let k = axisButton.textContent === 'AXIS: X' ? j : i;
-        for (let index = k; index < k + 5 && index < 10; index++) {
+        for (
+          let index = k;
+          index < k + shipSizes[shipIndex] && index < 10;
+          index++
+        ) {
           if (axisButton.textContent === 'AXIS: X') {
             board[i][index].style.background = 'none';
           } else if (axisButton.textContent === 'AXIS: Y') {
@@ -95,6 +105,8 @@ function _shipRendering() {
           }
         }
       });
+
+      board[i][j].addEventListener('click', () => shipIndex++);
     }
   }
 }
