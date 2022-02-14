@@ -8,11 +8,21 @@ import thirdView from './thirdView';
  * place our ships after entering the name
  */
 export default function () {
+  let shipNames = [
+    'CARRIER',
+    'BATTLESHIP',
+    'CRUISER',
+    'SUBMARINE',
+    'DESTROYER',
+  ];
+  let shipSizes = [5, 4, 3, 3, 2];
+  let shipIndex = 0;
   const main = document.querySelector('main');
   const placingContainer = document.createElement('div');
   placingContainer.className = 'placing-container';
   const title = document.createElement('h1');
-  title.textContent = 'FAROUK, PLACE YOUR CARRIER';
+  title.id = 'placing-desc';
+  title.textContent = `FAROUK, PLACE YOUR ${shipNames[shipIndex]}`;
   let axisButton = document.createElement('button');
   axisButton.id = 'axis-btn';
   axisButton.textContent = 'AXIS: X';
@@ -22,8 +32,6 @@ export default function () {
   placingContainer.appendChild(axisButton);
   placingContainer.appendChild(grid);
 
-  let shipSizes = [5, 4, 3, 3, 2];
-  let shipIndex = 0;
   // Places 100 divs making a BattleShip board
   for (let i = 0; i < 100; i++) {
     let columnPlacing = document.createElement('div');
@@ -38,8 +46,8 @@ export default function () {
   // unfade effect
   unfade(main);
 
-  _toggleAxis(axisButton, shipSizes, shipIndex);
-  _shipRendering(shipSizes, shipIndex);
+  _toggleAxis(axisButton, shipSizes, shipIndex, shipNames);
+  _shipRendering(shipSizes, shipIndex, shipNames);
 }
 
 /**
@@ -47,7 +55,7 @@ export default function () {
  * you to go over the limit of the matrix while placing ships
  */
 
-function _shipRendering(shipSizes, shipIndex) {
+function _shipRendering(shipSizes, shipIndex, shipNames) {
   let axisButton = document.getElementById('axis-btn');
   // Filling the matrix with the board divs
   const columnPlacing = document.querySelectorAll('.column-placing');
@@ -74,30 +82,33 @@ function _shipRendering(shipSizes, shipIndex) {
             // Change styling to indicate that we're out of bounds
             if (j > 10 - shipSizes[shipIndex]) {
               // Don't overwrite and existing ship
-              if (board[i][j].style.background === 'white')
+              // TODO: Do something to prevent placing ships on top
+              // of ships
+              if (board[i][j].style.background === 'rgba(222, 228, 228, 0.7)')
                 board[i][j].style.cursor = 'not-allowed';
               else {
-                board[i][j].style.background = 'red';
+                board[i][j].style.background = 'rgba(255, 0, 0, 0.6)';
                 board[i][j].style.cursor = 'not-allowed';
               }
               break;
             }
+
             // Give preview if we're not out of bounds
-            board[i][index].style.background = 'white';
+            board[i][index].style.background = 'rgba(222, 228, 228, 0.7)';
           } else if (axisButton.textContent === 'AXIS: Y') {
             // Change styling to indicate that we're out of bounds
             if (i > 10 - shipSizes[shipIndex]) {
               // Don't overwrite and existing ship
-              if (board[i][j].style.background === 'white')
+              if (board[i][j].style.background === 'rgba(222, 228, 228, 0.7)')
                 board[i][j].style.cursor = 'not-allowed';
               else {
                 board[i][j].style.cursor = 'not-allowed';
-                board[i][j].style.background = 'red';
+                board[i][j].style.background = 'rgba(255, 0, 0, 0.6)';
               }
               break;
             }
             // Give preview if we're not out of bounds
-            board[index][j].style.background = 'white';
+            board[index][j].style.background = 'rgba(222, 228, 228, 0.7)';
           }
         }
       });
@@ -113,13 +124,11 @@ function _shipRendering(shipSizes, shipIndex) {
             axisButton.textContent === 'AXIS: X' &&
             board[i][index].dataset.filled !== 'true'
           ) {
-            console.log('Mouse leave triggered');
             board[i][index].style.background = 'none';
           } else if (
             axisButton.textContent === 'AXIS: Y' &&
             board[index][j].dataset.filled !== 'true'
           ) {
-            console.log('Mouse leave triggered');
             board[index][j].style.background = 'none';
           }
         }
@@ -134,24 +143,51 @@ function _shipRendering(shipSizes, shipIndex) {
         ) {
           if (axisButton.textContent === 'AXIS: X') {
             // Change bg-color permanently
-            board[i][index].style.background = 'white';
+            board[i][index].style.background = 'rgba(222, 228, 228, 0.7)';
             // Mark the clicked column so that we don't remove
             board[i][index].dataset.filled = 'true';
           } else if (axisButton.textContent === 'AXIS: Y') {
             // Change bg-color permanently
-            board[index][j].style.background = 'white';
+            board[index][j].style.background = 'rgba(222, 228, 228, 0.7)';
             // Mark the clicked column so that we don't remove
             board[index][j].dataset.filled = 'true';
           }
+          // Stores coordinates and axis in a JSON string
+          localStorage.setItem(
+            shipNames[shipIndex],
+            JSON.stringify([
+              k,
+              index,
+              axisButton.textContent[axisButton.textContent.length - 1],
+            ])
+          );
         }
-        /* Condition to render next page is if we're done
-        with placing ships and we've reached the end of
-        shipSizes array */
+        // Increment shipIndex to get the right shipName array
         shipIndex++;
+
+        /* If statement to not render undefined when we're done with
+        the ships array */
+        if (shipNames[shipIndex] === undefined) {
+          document.getElementById(
+            'placing-desc'
+          ).textContent = `FAROUK, PLACE YOUR ${shipNames[shipIndex - 1]}`;
+        } else {
+          document.getElementById(
+            'placing-desc'
+          ).textContent = `FAROUK, PLACE YOUR ${shipNames[shipIndex]}`;
+        }
+
+        /* Condition to render next page is if we're done
+            with placing ships and we've reached the end of
+            shipSizes array */
         if (shipIndex > 4) {
-          alert("We're done");
-          // TODO: Store the coordinates and render next page when we're done placing
-          // Ships and
+          fade(document.querySelector('.placing-container'));
+          setTimeout(() => {
+            removeChildren(document.querySelector('main'));
+          }, 3000);
+          setTimeout(() => {
+            thirdView();
+          }, 3000);
         }
       });
     }
@@ -161,14 +197,13 @@ function _shipRendering(shipSizes, shipIndex) {
 /**
  * Toggles the axis of ship placing
  */
-function _toggleAxis(axisButton, shipSizes, shipIndex) {
+function _toggleAxis(axisButton, shipSizes, shipIndex, shipNames) {
   axisButton.addEventListener('click', () => {
-    console.log('Toggling axis here');
     if (axisButton.textContent === 'AXIS: X') {
       axisButton.textContent = 'AXIS: Y';
     } else if (axisButton.textContent === 'AXIS: Y') {
       axisButton.textContent = 'AXIS: X';
     }
   });
-  _shipRendering(shipSizes, shipIndex);
+  _shipRendering(shipSizes, shipIndex, shipNames);
 }

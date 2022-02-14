@@ -245,65 +245,14 @@ header > img {
   }
 }
 
-/* Making elements appear slowly */
-
-/* .input-container {
-  opacity: 0;
-  animation: makeVisible 3s forwards;
-} */
-
-/* @keyframes makeVisible {
-  to {
-    opacity: 1;
+@keyframes shake {
+  0% {
+    transform: translate(3px, 0);
   }
-} */
-
-/* Making elements disappear slowly */
-/* TODO:HERE NOW */
-/* .input-container {
-  animation: makeInvisible 5s forwards;
-} */
-
-/* @keyframes makeInvisible {
-  to {
-    opacity: 0;
+  50% {
+    transform: translate(-3px, 0);
   }
-} */
-
-/* ***********First View Ends Here************* */
-
-/* Animations for Second View */
-
-/* Making Elements appear slowly */
-/* .placing-container {
-  opacity: 0;
-  animation: makeVisible 5s forwards;
-} */
-
-/* Making elements disappear slowly */
-
-/* .placing-container {
-  animation: makeInvisible 5s forwards;
+  100% {
+    transform: translate(0, 0);
+  }
 }
-
-
-/* ***********Second View Ends Here************* */
-
-/* Animations for third view */
-
-/* Making elements appear slowly */
-/* .grid1-container,
-.grid2-container {
-  opacity: 0;
-  animation: makeVisible 5s forwards;
-}
-
-
-/* Making elements disappear slowly */
-
-/* .grid1-container,
-.grid2-container {
-  animation: makeInvisible 5s forwards;
-} */
-
-/* ***********Third View Ends Here************* */
