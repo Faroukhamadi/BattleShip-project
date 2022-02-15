@@ -156,8 +156,8 @@ function _shipRendering(shipSizes, shipIndex, shipNames) {
           localStorage.setItem(
             shipNames[shipIndex],
             JSON.stringify([
-              k,
-              index,
+              i,
+              j,
               axisButton.textContent[axisButton.textContent.length - 1],
             ])
           );

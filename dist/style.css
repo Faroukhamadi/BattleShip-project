@@ -194,7 +194,8 @@ footer > p {
   font-size: xx-large;
 }
 
-.column {
+.player-column,
+.computer-column {
   border: 2px solid white;
   height: 4vh;
   width: 3vw;
