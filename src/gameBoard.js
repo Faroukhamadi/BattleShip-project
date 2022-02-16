@@ -24,10 +24,9 @@ class GameBoard {
     this.shipName = shipName;
     this.ship = Ship(this.shipName);
     this.boardMatrix = this.#initializeBoard();
-    this.allSunk = this.#haveAllBeenSunk();
   }
 
-  #haveAllBeenSunk() {
+  get allSunk() {
     let count = 0;
     for (let i = 0; i < 10; i++) {
       for (let j = 0; j < 10; j++) {
@@ -40,14 +39,11 @@ class GameBoard {
 
     // 12 is the total of sizes, reaching 12 means all ships
     // are destroyed
-    if (this.allSunk !== undefined) {
-      if (count >= 12) {
-        console.log('Second time');
-        return true;
-      }
-
-      return false;
+    if (count >= 12) {
+      return count;
     }
+
+    return count;
   }
 
   /**
@@ -130,21 +126,3 @@ class GameBoard {
 module.exports = GameBoard;
 
 const testInstance = new GameBoard('CARRIER');
-console.log(testInstance.boardMatrix);
-console.log(testInstance.allSunk);
-testInstance.boardMatrix[0][1] = 7;
-testInstance.boardMatrix[0][2] = 7;
-testInstance.boardMatrix[0][3] = 7;
-testInstance.boardMatrix[0][4] = 7;
-testInstance.boardMatrix[0][5] = 7;
-testInstance.boardMatrix[0][6] = 7;
-testInstance.boardMatrix[0][7] = 7;
-testInstance.boardMatrix[0][8] = 7;
-testInstance.boardMatrix[0][9] = 7;
-testInstance.boardMatrix[1][1] = 7;
-testInstance.boardMatrix[2][1] = 7;
-testInstance.boardMatrix[3][1] = 7;
-testInstance.boardMatrix[4][1] = 7;
-testInstance.boardMatrix[5][1] = 7;
-console.log(testInstance.boardMatrix);
-console.log(testInstance.allSunk);
