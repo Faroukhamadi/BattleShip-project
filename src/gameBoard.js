@@ -11,6 +11,8 @@ const Ship = require('./Ship');
  * Numbers Used to indicate different states of board:
  * 6: Missed Shot
  * 7: Destroyed
+ *
+ * 12: Sizes of ships altogether
  */
 
 class GameBoard {
@@ -18,30 +20,34 @@ class GameBoard {
    *
    * @returns A boolean indicating whether all of the ships have been sunk
    */
-  constructor() {
-    this.carrier = Ship('carrier', 5, []);
-    this.battleship = Ship('battleship', 4, []);
-    this.cruiser = Ship('cruiser', 3, []);
-    this.submarine = Ship('submarine', 3, []);
-    this.destroyer = Ship('destroyer', 2, []);
-    this.ships = [
-      this.carrier,
-      this.battleship,
-      this.cruiser,
-      this.submarine,
-      this.destroyer,
-    ];
+  constructor(shipName) {
+    this.shipName = shipName;
+    this.ship = Ship(this.shipName);
     this.boardMatrix = this.#initializeBoard();
     this.allSunk = this.#haveAllBeenSunk();
   }
 
   #haveAllBeenSunk() {
-    for (const ship of this.ships) {
-      if (ship.shipHasSunk === false) {
-        return false;
+    let count = 0;
+    for (let i = 0; i < 10; i++) {
+      for (let j = 0; j < 10; j++) {
+        // 7 is the number that indicates that a ship was destroyed
+        if (this.boardMatrix[i][j] === 7) {
+          count++;
+        }
       }
     }
-    return true;
+
+    // 12 is the total of sizes, reaching 12 means all ships
+    // are destroyed
+    if (this.allSunk !== undefined) {
+      if (count >= 12) {
+        console.log('Second time');
+        return true;
+      }
+
+      return false;
+    }
   }
 
   /**
@@ -60,19 +66,19 @@ class GameBoard {
    * @param {Integer} boardValue Contains the value of the ship in the board
    * @returns The name of the ship
    */
-  #_identifyShip(boardValue) {
-    if (boardValue === 1) {
-      return 'carrier';
-    } else if (boardValue === 2) {
-      return 'battleship';
-    } else if (boardValue === 3) {
-      return 'cruiser';
-    } else if (boardValue === 4) {
-      return 'submarine';
-    } else if (boardValue === 5) {
-      return 'destroyer';
-    }
-  }
+  // #_identifyShip(boardValue) {
+  //   if (boardValue === 1) {
+  //     return 'CARRIER';
+  //   } else if (boardValue === 2) {
+  //     return 'BATTLESHIP';
+  //   } else if (boardValue === 3) {
+  //     return 'CRUISER';
+  //   } else if (boardValue === 4) {
+  //     return 'SUBMARINE';
+  //   } else if (boardValue === 5) {
+  //     return 'DESTROYER';
+  //   }
+  // }
 
   /**
    * @param {Integer} i Contains the row
@@ -82,23 +88,22 @@ class GameBoard {
   placeShip(i, j, axis) {
     //   TODO: Make this production ready
     // Rather than a testing method
-    let shipSize = this.ships[0].shipLength;
-    while (shipSize > 0) {
+    while (this.ship.shipLength > 0) {
       // Adding corresponding number to mark that ship exists
-      if (this.ships[0].shipName === 'carrier') {
+      if (this.ship.shipName === 'CARRIER') {
         this.boardMatrix[i][j] = 1;
-      } else if (this.ships[0].shipName === 'battleship') {
+      } else if (this.ship.shipName === 'BATTLESHIP') {
         this.boardMatrix[i][j] = 2;
-      } else if (this.ships[0].shipName === 'cruiser') {
+      } else if (this.ship.shipName === 'CRUISER') {
         this.boardMatrix[i][j] = 3;
-      } else if (this.ships[0].shipName === 'submarine') {
+      } else if (this.ship.shipName === 'SUBMARINE') {
         this.boardMatrix[i][j] = 4;
-      } else if (this.ships[0].shipName === 'destroyer') {
+      } else if (this.ship.shipName === 'DESTROYER') {
         this.boardMatrix[i][j] = 5;
       }
       if (axis === 'x') j++;
       if (axis === 'y') i++;
-      shipSize--;
+      this.ship.shipLength--;
     }
   }
 
@@ -114,11 +119,7 @@ class GameBoard {
     } else {
       // Record coordinates of shot
       if (this.boardMatrix[i][j] !== 0 && this.boardMatrix[i][j] !== 6) {
-        let shipName = this.#_identifyShip(this.boardMatrix[i][j]);
-        const indexOfShip = this.ships.findIndex(
-          (element) => element.shipName === shipName
-        );
-        this.ships[indexOfShip].hit({ row: i, column: j });
+        this.ship.hit({ row: i, column: j });
         // After hitting the ship mark the spot as hit by assigning 7
         this.boardMatrix[i][j] = 7;
       }
@@ -127,3 +128,23 @@ class GameBoard {
 }
 
 module.exports = GameBoard;
+
+const testInstance = new GameBoard('CARRIER');
+console.log(testInstance.boardMatrix);
+console.log(testInstance.allSunk);
+testInstance.boardMatrix[0][1] = 7;
+testInstance.boardMatrix[0][2] = 7;
+testInstance.boardMatrix[0][3] = 7;
+testInstance.boardMatrix[0][4] = 7;
+testInstance.boardMatrix[0][5] = 7;
+testInstance.boardMatrix[0][6] = 7;
+testInstance.boardMatrix[0][7] = 7;
+testInstance.boardMatrix[0][8] = 7;
+testInstance.boardMatrix[0][9] = 7;
+testInstance.boardMatrix[1][1] = 7;
+testInstance.boardMatrix[2][1] = 7;
+testInstance.boardMatrix[3][1] = 7;
+testInstance.boardMatrix[4][1] = 7;
+testInstance.boardMatrix[5][1] = 7;
+console.log(testInstance.boardMatrix);
+console.log(testInstance.allSunk);

@@ -1,3 +1,5 @@
+// import { _getShipSize } from './dom-module/thirdView';
+const _getShipSize = require('./getShipSize');
 /**
  *
  * @param {String} shipName Contains the ship name
@@ -7,14 +9,10 @@
  * @returns a Ship Object
  */
 
-function Ship(shipName, shipLength, shipDamageSpots = [], shipHasSunk = false) {
-  const _lowerCaseShipName = (shipName) => {
-    return shipName.toLowerCase();
-  };
-
+function Ship(shipName, shipDamageSpots = [], shipHasSunk = false) {
   return {
-    shipName: _lowerCaseShipName(shipName),
-    shipLength,
+    shipName: shipName,
+    shipLength: _getShipSize(shipName),
     shipDamageSpots,
     shipHasSunk,
     hit: (hitPosition) => {
