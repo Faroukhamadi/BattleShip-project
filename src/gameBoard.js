@@ -32,10 +32,9 @@ class GameBoard {
       this.destroyer,
     ];
     this.boardMatrix = this.#initializeBoard();
-    this.allSunk = this.#haveAllBeenSunk();
   }
 
-  #haveAllBeenSunk() {
+  get allSunk() {
     for (const ship of this.ships) {
       if (ship.shipHasSunk === false) {
         return false;
@@ -127,3 +126,12 @@ class GameBoard {
 }
 
 module.exports = GameBoard;
+
+const instanceBoard = new GameBoard();
+console.log(instanceBoard.allSunk);
+instanceBoard.carrier.shipHasSunk = true;
+instanceBoard.battleship.shipHasSunk = true;
+instanceBoard.cruiser.shipHasSunk = true;
+instanceBoard.destroyer.shipHasSunk = true;
+instanceBoard.submarine.shipHasSunk = true;
+console.log(instanceBoard.allSunk);
