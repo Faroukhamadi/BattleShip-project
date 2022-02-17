@@ -1,5 +1,7 @@
 import removeChildren from './removeChildren';
 import { fade, unfade } from './fadeEffects';
+import _getShipProperties from './getShipProperties';
+
 export default function thirdView() {
   const main = document.querySelector('main');
   const grid1Container = document.createElement('div');
@@ -48,30 +50,6 @@ export default function thirdView() {
 
   // Use shipProperties to render user ships
   renderPlayerShips(shipProperties);
-}
-
-/**
- *  Get Array of objects that have following attributes:
- *  name
- *  row
- *  column
- *  axis
- * @returns array of objects
- */
-function _getShipProperties() {
-  let tempShipProperties = [];
-  let tempProperties = [];
-  for (let i = 0; i < localStorage.length; i++) {
-    let key = localStorage.key(i);
-    tempProperties = JSON.parse(localStorage.getItem(key));
-    tempShipProperties.push({
-      name: key,
-      row: tempProperties[0],
-      column: tempProperties[1],
-      axis: tempProperties[2],
-    });
-  }
-  return tempShipProperties;
 }
 
 function renderPlayerShips(shipProperties) {

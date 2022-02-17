@@ -60,17 +60,31 @@ class GameBoard {
    * @returns The name of the ship
    */
   #_identifyShip(boardValue) {
-    if (boardValue === 1) {
-      return 'carrier';
-    } else if (boardValue === 2) {
-      return 'battleship';
-    } else if (boardValue === 3) {
-      return 'cruiser';
-    } else if (boardValue === 4) {
-      return 'submarine';
-    } else if (boardValue === 5) {
-      return 'destroyer';
+    switch (boardValue) {
+      case 1:
+        return 'carrier';
+      case 2:
+        return 'battleship';
+      case 3:
+        return 'cruiser';
+      case 4:
+        return 'submarine';
+      case 5:
+        return 'destroyer';
+      default:
+        return;
     }
+    // if (boardValue === 1) {
+    //   return 'carrier';
+    // } else if (boardValue === 2) {
+    //   return 'battleship';
+    // } else if (boardValue === 3) {
+    //   return 'cruiser';
+    // } else if (boardValue === 4) {
+    //   return 'submarine';
+    // } else if (boardValue === 5) {
+    //   return 'destroyer';
+    // }
   }
 
   /**
@@ -78,21 +92,22 @@ class GameBoard {
    * @param {Integer} j Contains the column
    * @param {Char} axis Contains the ship axis
    */
-  placeShip(i, j, axis) {
+  placeShip(i, j, axis, index) {
     //   TODO: Make this production ready
     // Rather than a testing method
-    let shipSize = this.ships[0].shipLength;
+    let shipSize = this.ships[index].shipLength;
     while (shipSize > 0) {
+      console.log(shipSize);
       // Adding corresponding number to mark that ship exists
-      if (this.ships[0].shipName === 'carrier') {
+      if (this.ships[index].shipName === 'carrier') {
         this.boardMatrix[i][j] = 1;
-      } else if (this.ships[0].shipName === 'battleship') {
+      } else if (this.ships[index].shipName === 'battleship') {
         this.boardMatrix[i][j] = 2;
-      } else if (this.ships[0].shipName === 'cruiser') {
+      } else if (this.ships[index].shipName === 'cruiser') {
         this.boardMatrix[i][j] = 3;
-      } else if (this.ships[0].shipName === 'submarine') {
+      } else if (this.ships[index].shipName === 'submarine') {
         this.boardMatrix[i][j] = 4;
-      } else if (this.ships[0].shipName === 'destroyer') {
+      } else if (this.ships[index].shipName === 'destroyer') {
         this.boardMatrix[i][j] = 5;
       }
       if (axis === 'x') j++;
@@ -100,6 +115,82 @@ class GameBoard {
       shipSize--;
     }
   }
+  _isLegalMove(row, col, shipLength, axis, boardMatrix) {
+    if (
+      row === undefined ||
+      col === undefined ||
+      shipLength === undefined ||
+      axis === undefined ||
+      row >= 10 ||
+      col >= 10 ||
+      col + shipLength - 1 >= 10 ||
+      row + shipLength - 1 >= 10 ||
+      boardMatrix[row][col + shipLength - 1] === undefined ||
+      boardMatrix[row + shipLength - 1][col] === undefined
+    ) {
+      return false;
+    }
+    if (axis === 'x' && col + shipLength < 10) {
+      for (let j = col; j < col + shipLength; j++) {
+        if (boardMatrix[row][j] === undefined || boardMatrix[row][j] !== 0) {
+          return false;
+        }
+      }
+    } else if (axis === 'y' && row + shipLength < 10) {
+      for (let i = row; i < row + shipLength; i++) {
+        if (boardMatrix[i][col] === undefined || boardMatrix[i][col] !== 0) {
+          return false;
+        }
+      }
+    }
+    if (col + shipLength >= 10 || row + shipLength >= 10) return false;
+    return true;
+  }
+
+  // Helper function, belongs to the spaghetti code part
+  // IMPORTANT: this can be fixed after we get our app up and running
+  placeShipsComputer() {
+    for (let i = 0; i < this.ships.length; i++) {
+      // pick axis randomly
+      let axisArr = ['x', 'y'];
+      let axis = axisArr[Math.floor(Math.random() * 2)];
+      let row, col;
+      do {
+        row = Math.floor(Math.random() * 11);
+        col = Math.floor(Math.random() * 11);
+      } while (
+        this._isLegalMove(
+          row,
+          col,
+          this.ships[i].shipLength,
+          axis,
+          this.boardMatrix
+        ) === false
+      );
+      if (axis === 'x') {
+        for (let index = col; index < col + this.ships[i].shipLength; index++) {
+          this.boardMatrix[row][index] = 1;
+        }
+      } else if (axis === 'y') {
+        for (let index = row; index < row + this.ships[i].shipLength; index++) {
+          this.boardMatrix[index][col] = 1;
+        }
+      }
+    }
+  }
+
+  // Spaghetti code close your eyes, will fix this once application is working
+  // IMPORTANT: This could be fixed using index manipulation by not entering the function
+
+  /**
+   *
+   * @param {Integer} row Contains the row to check whether valid or not
+   * @param {Integer} col Contains the col to check whether valid or not
+   * @param {Integer} shipLength Contains the shipLength of element in ship array
+   * @param {Char} axis Contains the axis of our ship placement
+   * @param {Array} boardMatrix Contains a 2d array board
+   * @returns a boolean indicating whether the move is legal or not
+   */
 
   /**
    * @param {Integer} i Contains starting row of the attack
@@ -126,12 +217,3 @@ class GameBoard {
 }
 
 module.exports = GameBoard;
-
-const instanceBoard = new GameBoard();
-console.log(instanceBoard.allSunk);
-instanceBoard.carrier.shipHasSunk = true;
-instanceBoard.battleship.shipHasSunk = true;
-instanceBoard.cruiser.shipHasSunk = true;
-instanceBoard.destroyer.shipHasSunk = true;
-instanceBoard.submarine.shipHasSunk = true;
-console.log(instanceBoard.allSunk);
