@@ -74,17 +74,6 @@ class GameBoard {
       default:
         return;
     }
-    // if (boardValue === 1) {
-    //   return 'carrier';
-    // } else if (boardValue === 2) {
-    //   return 'battleship';
-    // } else if (boardValue === 3) {
-    //   return 'cruiser';
-    // } else if (boardValue === 4) {
-    //   return 'submarine';
-    // } else if (boardValue === 5) {
-    //   return 'destroyer';
-    // }
   }
 
   /**
@@ -93,11 +82,8 @@ class GameBoard {
    * @param {Char} axis Contains the ship axis
    */
   placeShip(i, j, axis, index) {
-    //   TODO: Make this production ready
-    // Rather than a testing method
     let shipSize = this.ships[index].shipLength;
     while (shipSize > 0) {
-      console.log(shipSize);
       // Adding corresponding number to mark that ship exists
       if (this.ships[index].shipName === 'carrier') {
         this.boardMatrix[i][j] = 1;
@@ -115,6 +101,9 @@ class GameBoard {
       shipSize--;
     }
   }
+
+  // Spaghetti code close your eyes, will fix this once application is working
+  // IMPORTANT: This could be fixed using index manipulation by not entering the function
   _isLegalMove(row, col, shipLength, axis, boardMatrix) {
     if (
       row === undefined ||
@@ -178,9 +167,6 @@ class GameBoard {
       }
     }
   }
-
-  // Spaghetti code close your eyes, will fix this once application is working
-  // IMPORTANT: This could be fixed using index manipulation by not entering the function
 
   /**
    *

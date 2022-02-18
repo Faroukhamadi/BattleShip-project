@@ -246,14 +246,10 @@ header > img {
   }
 }
 
-@keyframes shake {
-  0% {
-    transform: translate(3px, 0);
-  }
-  50% {
-    transform: translate(-3px, 0);
-  }
-  100% {
-    transform: translate(0, 0);
-  }
+.computer-column {
+  cursor: crosshair;
+}
+
+.computer-column:hover {
+  background-color: rgba(255, 0, 0, 1);
 }
