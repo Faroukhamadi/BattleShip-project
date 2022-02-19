@@ -194,8 +194,6 @@ function _shipRendering(shipSizes, shipIndex, shipNames) {
           }, 3000);
           setTimeout(() => {
             thirdView();
-            gameLogic();
-            // HACK: Here
           }, 3000);
         }
       });
