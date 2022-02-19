@@ -34,10 +34,27 @@ class GameBoard {
     this.boardMatrix = this.#initializeBoard();
   }
 
+  /**
+   * @returns true if player ships have all sunk, false otherwise
+   */
+
   get allSunk() {
     for (const ship of this.ships) {
-      if (ship.shipHasSunk === false) {
+      if (ship.isSunk() === false) {
         return false;
+      }
+    }
+    return true;
+  }
+
+  /**
+   * no 'ones' means all computer ships has sunk
+   * @returns true if computer ships have all sunk, false otherwise
+   */
+  get allSunkComputer() {
+    for (const row of this.boardMatrix) {
+      for (const column of row) {
+        if (column === 1) return false;
       }
     }
     return true;
@@ -185,6 +202,8 @@ class GameBoard {
    */
   receiveAttack(i, j) {
     // If value is '0' then shot is missed
+    // TODO: Delete This
+    console.log('We getting attacked :(');
     if (this.boardMatrix[i][j] === 0) {
       this.boardMatrix[i][j] = 6;
     } else {

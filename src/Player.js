@@ -14,15 +14,16 @@ class Player {
   /**
    * Makes a random move for the computer player
    */
-  computerMove() {
+  computerMove(playerGameBoard) {
     if (this.name === 'computer') {
-      const gameBoard = new GameBoard();
       let row, col;
       do {
         row = Math.floor(Math.random() * 11);
         col = Math.floor(Math.random() * 11);
-      } while (this.#isLegalMove(row, col, gameBoard) === false);
-      gameBoard.receiveAttack(row, col);
+      } while (
+        this.#isLegalMove(row, col, playerGameBoard.boardMatrix) === false
+      );
+      playerGameBoard.receiveAttack(row, col);
     }
   }
 
@@ -30,13 +31,13 @@ class Player {
    *
    * @param {Integer} row Contains a row coordinate to determine whether it's legal or not
    * @param {Integer} col Contains a column coordinate to determine whether it's legal or not
-   * @param {Object} gameBoard Contains an instance of the GameBoard class
+   * @param {Object} playerBoard Contains an instance of the GameBoard class
    * @returns True if the move is legal and False otherwise
    */
-  #isLegalMove(row, col, gameBoard) {
+  #isLegalMove(row, col, playerBoard) {
     if (this.name === 'computer') {
       // 6 means missed and 7 means destroyed, not a valid move
-      if (gameBoard[row][col] >= 6) return false;
+      if (playerBoard[row][col] >= 6) return false;
       return true;
     }
   }

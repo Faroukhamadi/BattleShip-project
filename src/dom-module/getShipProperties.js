@@ -11,13 +11,15 @@ export default function _getShipProperties() {
   let tempProperties = [];
   for (let i = 0; i < localStorage.length; i++) {
     let key = localStorage.key(i);
-    tempProperties = JSON.parse(localStorage.getItem(key));
-    tempShipProperties.push({
-      name: key,
-      row: tempProperties[0],
-      column: tempProperties[1],
-      axis: tempProperties[2],
-    });
+    if (key !== 'name') {
+      tempProperties = JSON.parse(localStorage.getItem(key));
+      tempShipProperties.push({
+        name: key,
+        row: tempProperties[0],
+        column: tempProperties[1],
+        axis: tempProperties[2],
+      });
+    }
   }
   return tempShipProperties;
 }

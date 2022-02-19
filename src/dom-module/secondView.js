@@ -2,6 +2,7 @@ import removeChildren from './removeChildren';
 import { fade, unfade } from './fadeEffects';
 import zeros from './zeros';
 import thirdView from './thirdView';
+import gameLogic from '../gameLogic';
 
 /**
  * This is a helper function that helps us render the grid
@@ -22,7 +23,9 @@ export default function () {
   placingContainer.className = 'placing-container';
   const title = document.createElement('h1');
   title.id = 'placing-desc';
-  title.textContent = `FAROUK, PLACE YOUR ${shipNames[shipIndex]}`;
+  title.textContent = `${localStorage.getItem('name')}, PLACE YOUR ${
+    shipNames[shipIndex]
+  }`;
   let axisButton = document.createElement('button');
   axisButton.id = 'axis-btn';
   axisButton.textContent = 'AXIS: X';
@@ -170,11 +173,15 @@ function _shipRendering(shipSizes, shipIndex, shipNames) {
         if (shipNames[shipIndex] === undefined) {
           document.getElementById(
             'placing-desc'
-          ).textContent = `FAROUK, PLACE YOUR ${shipNames[shipIndex - 1]}`;
+          ).textContent = `${localStorage.getItem('name')}, PLACE YOUR ${
+            shipNames[shipIndex - 1]
+          }`;
         } else {
           document.getElementById(
             'placing-desc'
-          ).textContent = `FAROUK, PLACE YOUR ${shipNames[shipIndex]}`;
+          ).textContent = `${localStorage.getItem('name')}, PLACE YOUR ${
+            shipNames[shipIndex]
+          }`;
         }
 
         /* Condition to render next page is if we're done
@@ -187,6 +194,8 @@ function _shipRendering(shipSizes, shipIndex, shipNames) {
           }, 3000);
           setTimeout(() => {
             thirdView();
+            gameLogic();
+            // HACK: Here
           }, 3000);
         }
       });
