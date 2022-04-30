@@ -35,5 +35,4 @@ export default function game(playerGameboard, computerGameboard, computer) {
       });
     }
   }
-  // mouseenter / mouseleave
 }

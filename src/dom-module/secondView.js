@@ -2,7 +2,6 @@ import removeChildren from './removeChildren';
 import { fade, unfade } from './fadeEffects';
 import zeros from './zeros';
 import thirdView from './thirdView';
-import gameLogic from '../gameLogic';
 
 /**
  * This is a helper function that helps us render the grid

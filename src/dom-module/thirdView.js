@@ -1,5 +1,4 @@
-import removeChildren from './removeChildren';
-import { fade, unfade } from './fadeEffects';
+import { unfade } from './fadeEffects';
 import _getShipProperties from './getShipProperties';
 
 export default function thirdView() {

@@ -1,6 +1,3 @@
-const Ship = require('./Ship');
-const GameBoard = require('./GameBoard');
-
 class Player {
   constructor(name) {
     this.name = name;
